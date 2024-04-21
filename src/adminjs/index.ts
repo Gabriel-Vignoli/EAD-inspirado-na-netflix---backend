@@ -4,6 +4,7 @@ import AdminJSSequelize from "@adminjs/sequelize"
 import { sequelize } from "../database";
 import { adminJsResources } from "./resources";
 import { User } from "../models";
+import { locale } from "./locale";
 const bcrypt = require('bcrypt')
 
 AdminJS.registerAdapter(AdminJSSequelize)
@@ -32,7 +33,8 @@ export const adminJs = new AdminJS({
               hoverBg: '#151515',
           }
         }
-      }
+    },
+    locale: locale
     })
 
 //vai construir as rotas e inserir elas no app do express
