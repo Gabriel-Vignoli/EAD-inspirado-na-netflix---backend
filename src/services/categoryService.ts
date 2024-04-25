@@ -1,5 +1,3 @@
-// src/services/categoryService.ts
-
 import { Category } from '../models'
 
 export const categoryService = {
