@@ -1,3 +1,4 @@
+import { Op } from 'sequelize'
 import { Course } from '../models'
 
 export const courseService = {
@@ -52,6 +53,34 @@ export const courseService = {
     })
 
     return courses
+  },
+
+  findByName: async (name: string, page: number, perPage: number) => {
+    const offset = (page - 1) * perPage
+
+     const { count, rows } = await Course.findAndCountAll({
+      attributes: [
+        'id', 
+        'name',
+        'synopsis',
+        ['thumbnail_url', 'thumbnailUrl']
+      ],
+      where: {
+        //vai procurar todos os cursos que tem a palavra passada pelo cliente, ex: se o cliente passar 'end', o servidor vai retornar o curso 'back-end', 'front-end', entre outros, e n importa se é maiusculo ou minusculo pór causa do iLike
+        name: {
+          [Op.iLike]: `%${name}%`
+        }
+      },
+      limit: perPage,
+      offset
+     })
+
+     return {
+      courses: rows,
+      page,
+      perPage,
+      total: count
+     }
   }
 
 }
